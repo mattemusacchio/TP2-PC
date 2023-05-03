@@ -12,3 +12,4 @@ mensaje_cifrado = cifrado(mensaje,key)
 file = open(encryptedfile,"w")
 file.write(mensaje_cifrado)
 file.close()
+assert...
