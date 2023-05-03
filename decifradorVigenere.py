@@ -34,9 +34,9 @@ def cifrado(msg,clave):
         else:
             contador += 1
             j = clave_repetida[contador]
-            num = diccionario[m] + diccionario[j]
+            num = diccionario[m] - diccionario[j]
             valor = diccionario2[num]
         clave_final.append(valor)
     clave_final = "".join(clave_final)
     return clave_final
-print(cifrado("Este es un mensaje super secreto.","clavesecreta"))
+print(cifrado("gdtz ik yp digscue nyhit jivrgeo.","clavesecreta"))
