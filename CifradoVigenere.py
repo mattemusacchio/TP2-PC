@@ -8,6 +8,7 @@ def cifrado(msg,clave):
                 clave_repetida.append(" ")
             x = i.isalpha()
             if x == False:
+                longitud = longitud - 1
                 continue
             else:
                 contador += 1
@@ -25,14 +26,17 @@ def cifrado(msg,clave):
     msg = msg.lower()
     contador = -1
     for m in msg:
-        contador += 1
         if m == " ":
             valor = " "
+            contador += 1
+        if m.isalpha() == False:
+            valor = m
         else:
+            contador += 1
             j = clave_repetida[contador]
             num = diccionario[m]+diccionario[j]
             valor = diccionario2[num]
         clave_final.append(valor)
     clave_final = "".join(clave_final)
     return clave_final
-print(cifrado("Este es un mensaje super secreto","clavesecreta"))
+print(cifrado("Este es un mensaje super secreto.","clavesecreta"))
