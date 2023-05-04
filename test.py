@@ -1,39 +1,45 @@
-def cifrado(msg,clave):
+import numpy as np
+import matplotlib.pyplot as plt
+from TestNew_3 import valores,grupos,getMedium
+
+def grafico(data,title,xlabel,ylabel):
+    # creating the dataset
+    courses = list(data.keys())
+    values = list(data.values())
+    
+    fig = plt.figure(figsize = (10, 5))
+
+    # creating the bar plot
+    plt.bar(courses, values, color ='steelblue',
+            width = 0.8)
+    
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.title(title)
+    plt.show()
+
+#IoC en función del posible largo de la clave, para longitudes de entre 1 y 30.
+grafico(valores(),"IoC en función del posible largo de la clave","Largo de la clave","Indice de coincidencia")
+
+#La frecuencia de las letras en el idioma inglés.
+ENGLISH_LETTERS_FRECUENCIES = {
+    "a": 0.08167, "b": 0.01492, "c": 0.02782, "d": 0.04253, "e": 0.12702, "f": 0.02228,
+    "g": 0.02015, "h": 0.06094, "i": 0.06966, "j": 0.00153, "k": 0.00772, "l": 0.04025,
+    "m": 0.02406, "n": 0.06749, "o": 0.07507, "p": 0.01929, "q": 0.00095, "r": 0.05987,
+    "s": 0.06327, "t": 0.09056, "u": 0.02758, "v": 0.00978, "w": 0.02360, "x": 0.00150,
+    "y": 0.01974, "z": 0.00075
+}
+grafico(ENGLISH_LETTERS_FRECUENCIES,"Inglés","","Frecuencia")
+
+#La frecuencia de las letras que están en las posiciones 0, 5, 10, 15 … del mensaje en encrypted.txt.
+print(grupos("encrypted.txt",5))
+m = 0
+contador = 0
+for i in grupos("encrypted.txt",5):
+    m += 1
     diccionario = {
-        "a":0,"b":1,"c":2,"d":3,"e":4,"f":5,"g":6,"h":7,"i":8,"j":9,"k":10,"l":11,"m":12,"n":13,"o":14,"p":15,"q":16,"r":17,"s":18,"t":19,"u":20,"v":21,"w":22,"x":23,"y":24,"z":25
+    "a": 0, "b": 0, "c": 0, "d": 0, "e": 0, "f": 0, "g": 0, "h": 0, "i": 0, "j": 0, "k": 0, "l": 0, "m": 0, "n": 0,  "o": 0, "p": 0, "q": 0, "r": 0, "s": 0, "t": 0, "u": 0, "v": 0, "w": 0, "x": 0, "y": 0, "z": 0
     }
-    diccionario2 = {
-        -26:"a",-25:"b",-24:"c",-23:"d",-22:"e",-21:"f",-20:"g",-19:"h",-18:"i",-17:"j",-16:"k",-15:"l",-14:"m",-13:"n",-12:"o",-11:"p",-10:"q",-9:"r",-8:"s",-7:"t",-6:"u",-5:"v",-4:"w",-3:"x",-2:"y",-1:"z",0:"a",1:"b",2:"c",3:"d",4:"e",5:"f",6:"g",7:"h",8:"i",9:"j",10:"k",11:"l",12:"m",13:"n",14:"o",15:"p",16:"q",17:"r",18:"s",19:"t",20:"u",21:"v",22:"w",23:"x",24:"y",25:"z",26:"a",27:"b",28:"c",29:"d",30:"e",31:"f",32:"g",33:"h",34:"i",35:"j",36:"k",37:"l",38:"m",39:"n",40:"o",41:"p",42:"q",43:"r",44:"s",45:"t",46:"u",47:"v",48:"w",49:"x",50:"y",51:"z"
-    }
-    longitud = len(msg)
-    clave_repetida = []
-    contador = -1
-    while len(clave_repetida) < longitud:
-        for i in msg:
-            if i == " ":
-                clave_repetida.append(" ")
-            x = i.isalpha()
-            if x == False:
-                continue
-            else:
-                contador += 1
-                if contador >= len(clave):
-                    contador = 0
-                clave_repetida.append(clave[contador])
-    clave_final = []
-    clave_repetida = "".join(clave_repetida)
-    msg = msg.lower()
-    contador = -1
-    for m in msg:
-        contador += 1
-        if m == " ":
-            valor = " "
-        else:
-            j = clave_repetida[contador]
-            num = diccionario[m] - diccionario[j]
-            valor = diccionario2[num]
-        clave_final.append(valor)
-    clave_final = "".join(clave_final)
-    return clave_final
-print(cifrado("Este es un mensaje super secreto","clavesecreta"))
-print(cifrado("gdtz ik yp digscue nyhit jivrgeo","clavesecreta"))
+    contador += 1
+    diccionario[i] = getMedium(i)
+    grafico(diccionario,f"Letra {m} de la clave","","Frecuencia")

@@ -1,3 +1,35 @@
+def grupos(fn,k):
+    f = open(fn,"r")
+    texto = f.read()
+    texto = texto.lower()
+    texto = texto.split(" ")
+    texto = "".join(texto)
+    lista = []
+    grupo = ""
+    for i in range(k):
+        lista.append(grupo)
+        contador = -1
+        contador += 1
+        grupo = []
+        try:
+            grupo.append(texto[i])
+        except:
+            grupo.append("0")
+        conti = i
+        while contador < (len(texto)/k):
+            contador += 1
+            conti = conti + (k)
+            if conti >= len(texto):
+                continue
+            elif texto[conti].isalpha() == False:
+                continue
+            else:
+                grupo.append(texto[conti])
+    lista.append(grupo)
+    lista.remove("")
+    for item in lista:
+      item = "".join(item)
+    return lista
 def getMedium(text):
     everyLetter = list(map(chr, range(97, 123)))
     countLetter = {}
@@ -11,13 +43,27 @@ def getMedium(text):
     for letrasEncontradas in countLetter:
        amount += countLetter[letrasEncontradas]
        top += countLetter[letrasEncontradas] * (countLetter[letrasEncontradas] - 1)
-    
-    return(top / (amount * (amount - 1)))
+    try:
+      return(top / (amount * (amount - 1)))
+    except:
+       return 0
+def valores():
+   ratiofinal = []
+   for k in range(1,31):
+      i = grupos("plain.txt",k)
+      ratio = []
+      for j in i:
+         ratio.append(getMedium(j))
+      ratiofinal.append(sum(ratio)/len(ratio))
+   diccionario = {}
+   contador = 0
+   for i in ratiofinal:
+      contador += 1
+      diccionario[contador] = i
+   return diccionario
 
 
 
 ratio  = (getMedium("esnsst") + getMedium("susueo") + getMedium("tnapc") + getMedium("emjer") + getMedium("eeere")) / 5
-
-print(ratio)
 
 

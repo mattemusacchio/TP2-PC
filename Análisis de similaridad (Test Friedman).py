@@ -1,6 +1,5 @@
 def indice_de_coincidencia(fn,k):
-    f = open(fn,"r")
-    texto = f.read()
+    texto = fn
     texto = texto.lower()
     texto = texto.split(" ")
     texto = "".join(texto)
@@ -46,4 +45,4 @@ def indice_de_coincidencia(fn,k):
         suma.append(sum(i))
     promedio = (sum(suma)/longitud)
     print("Promedio:",promedio)
-print(indice_de_coincidencia("plain.txt",5))
+print(indice_de_coincidencia("Hello' and 'hallo' are the same word. 'Hallo' is simply an alternative way of writing 'hello'. It's quite old-fashioned and rarely used these days. Nowadays, almost everyone writes it 'hello'.",5))
