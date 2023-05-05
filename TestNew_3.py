@@ -15,20 +15,18 @@ def grupos(fn,k):
             grupo.append(texto[i])
         except:
             grupo.append("0")
-        conti = i
+        count = i
         while contador < (len(texto)/k):
             contador += 1
-            conti = conti + (k)
-            if conti >= len(texto):
+            count = count + (k)
+            if count >= len(texto):
                 continue
-            elif texto[conti].isalpha() == False:
+            elif texto[count].isalpha() == False:
                 continue
             else:
-                grupo.append(texto[conti])
+                grupo.append(texto[count])
     lista.append(grupo)
     lista.remove("")
-    for item in lista:
-      item = "".join(item)
     return lista
 def getMedium(text):
     everyLetter = list(map(chr, range(97, 123)))
