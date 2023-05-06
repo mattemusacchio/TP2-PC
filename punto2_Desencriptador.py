@@ -16,11 +16,15 @@ def decifrado(msg, clave):
 
   result = "".join(encryptedValue)
   return result
+
 print("≡≡Desencriptador de Cifrado de Vigenère≡≡")
 filename = input("Ingrese nombre del archivo encriptado: ")
 key = input("Ingrese la clave: ")
 encryptedfile = input("Ingrese nombre del archivo para la desencripción: ")
-f = open(filename,"r")
+try:
+  f = open(filename,"r")
+except:
+  exit("Archivo inexistente")
 mensaje = f.read()
 f.close()
 mensaje_cifrado = decifrado(mensaje,key)

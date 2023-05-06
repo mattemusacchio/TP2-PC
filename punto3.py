@@ -2,59 +2,42 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 archivo = input("Ingrese nombre del archivo: ")
-def grupos(fn,k):
-    f = open(fn,"r")
-    texto = f.read()
-    texto = texto.lower()
-    texto = texto.split(" ")
-    texto = "".join(texto)
-    lista = []
-    grupo = ""
-    for i in range(k):
-        lista.append(grupo)
-        contador = -1
-        contador += 1
-        grupo = []
-        try:
-            grupo.append(texto[i])
-        except:
-            grupo.append("0")
-        count = i
-        while contador < (len(texto)/k):
-            contador += 1
-            count = count + (k)
-            if count >= len(texto):
-                continue
-            elif texto[count].isalpha() == False:
-                continue
-            else:
-                grupo.append(texto[count])
-    lista.append(grupo)
-    lista.remove("")
-    return lista
+def DivideText(f, length):
+    text = open(f,"r",encoding='utf-8')
+    text = text.read()
+    textDivided = []
+    count = 0
+    newText = text.casefold()
+    for i in range(0, length):
+        textDivided.append([])
+    for letter in newText:
+       if(letter.isalpha()):
+        textDivided[count].append(letter)
+        if(length -1 == count):
+            count = 0
+        else:
+            count += 1
+    return textDivided
 
-def getIoC(text):
-    everyLetter = list(map(chr, range(97, 123)))
+def getIoC(List):
     countLetter = {}
     top = 0
     amount = 0
-    for letra in text:
-     if letra in countLetter:
-        countLetter[letra] += 1
-     else: 
-       countLetter[letra] = 1
+   
+    for letra in List:
+         if letra in countLetter:
+          countLetter[letra] += 1
+         else: 
+             countLetter[letra] = 1
     for letrasEncontradas in countLetter:
-       amount += countLetter[letrasEncontradas]
-       top += countLetter[letrasEncontradas] * (countLetter[letrasEncontradas] - 1)
-    try:
-      return(top / (amount * (amount - 1)))
-    except:
-       return 0
+          amount += countLetter[letrasEncontradas]
+          top += countLetter[letrasEncontradas] * (countLetter[letrasEncontradas] - 1)
+    return(top / (amount * (amount - 1)))
 
 def valores():
    ratiofinal = []
    for k in range(1,31):
-      i = grupos(archivo,k)
+      i = DivideText(archivo,k)
       ratio = []
       for j in i:
          ratio.append(getIoC(j))
@@ -97,13 +80,13 @@ def grafico(data,title,xlabel,ylabel):
 
 ###########################################################
 
-# 1. Dividir el texto en grupos
+# 1. Dividir el texto en DivideText
 valor_de_k = int(input("Ingrese valor de k: "))
-print(grupos(archivo,valor_de_k))
+print(DivideText(archivo,valor_de_k))
 
-# 2. Calcular el IoC de cada uno de estos grupos
+# 2. Calcular el IoC de cada uno de estos DivideText
 resultados = []
-for i in grupos(archivo,valor_de_k):
+for i in DivideText(archivo,valor_de_k):
    resultados.append(getIoC(i))
 print(resultados)
 
@@ -127,7 +110,7 @@ grafico(ENGLISH_LETTERS_FRECUENCIES,"Inglés","","Frecuencia")
 #La frecuencia de las letras que están en las posiciones 0, 5, 10, 15 … del mensaje en encrypted.txt.
 m = 0
 contador = 0
-for i in grupos(archivo,5):
+for i in DivideText(archivo,5):
     m += 1
     count = -1
     diccionario = {
