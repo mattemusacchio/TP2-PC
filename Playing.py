@@ -1,5 +1,14 @@
 from itertools import product
 
+letters = input("Letters Range (Minimum 2):")
+if letters.isnumeric() == False:  
+   print("Wrong Input, not numeric")
+   exit()
+else:
+   if int(letters) < 2 or int(letters) > 8:
+    print("Wrong Input, should be between 2 and 8")
+    exit()
+
 
 def DivideText(length, text):
     textDivided = []
@@ -14,11 +23,12 @@ def DivideText(length, text):
             count = 0
         else:
             count += 1
-    
     medium = 0
+    allMedium = 0
     for lists in textDivided:
-       medium = getMedium(lists)
-    if(medium > 0.06):
+       medium += getMedium(lists)
+    allMedium = medium / len(textDivided)
+    if(allMedium > 0.06):
        return medium, textDivided
     else: 
        return 0,0
@@ -31,12 +41,8 @@ def getPossibleLetters(Lists):
     countLetter = {}
     top = 0
     amount = 0
-   
-    for letra in Lists:
-         if letra in countLetter:
-          countLetter[letra] += 1
-         else: 
-             countLetter[letra] = 1
+    for letra in range(ord("a"), ord("z") + 1):
+       countLetter[chr(letra)] = Lists.count(chr(letra))
     for letrasEncontradas in countLetter:
           amount += countLetter[letrasEncontradas]
           top += countLetter[letrasEncontradas] * (countLetter[letrasEncontradas] - 1)
@@ -44,7 +50,7 @@ def getPossibleLetters(Lists):
     index = 4
     valuesPerLetter = list(map(chr, range(97, 123))) * 2
     allValues = []
-    for ii in range(0, 2):
+    for ii in range(0, int(letters)):
     
     
      clave_maxima = max(countLetter, key=lambda k: countLetter[k])
@@ -65,7 +71,7 @@ def Descifrar(path, clave):
   indexEncrypted = 0
   newClave = clave.casefold()
   newMensaje = path.casefold()
-  for letter in newMensaje[:35]:
+  for letter in newMensaje[:200]:
      if(letter.isalpha()):
        encryptedValue.append(valuesPerLetter[(ord(letter) - ord("a")) - (ord(newClave[indexEncrypted]) - ord("a"))])
        if(len(newClave) - 1 == indexEncrypted):
@@ -76,7 +82,7 @@ def Descifrar(path, clave):
       encryptedValue.append(" ")
 
   result = "".join(encryptedValue)
-  return(result[:35])    
+  return(result)    
 
 def getMedium(List):
     countLetter = {}
@@ -95,13 +101,15 @@ def getMedium(List):
 
 
 def FindKey(text):
+   if len(text) < 200:
+      print("Length t0o low")
+      return 0
    searching = True
    i = 0
    dividedText = []
    while searching:
       i += 1
       answers = DivideText(i, text)
-      
       if(answers[0] > 0):
          dividedText = answers[1]
          searching  = False
@@ -125,17 +133,21 @@ def FindKey(text):
          length += 1
          if (ord(letter_Possible) in range(ord("a"), ord("z")) and letter_Possible not in vocales):
            count += 1
-           if count > 3:
+           if count > 4:
                break
          elif (ord(letter_Possible) in range(ord("a"), ord("z"))):
             count = 0
             
          if((length) == len(possible)):
-            print("Decrypted:  ", f"{possible}...", "---->", "  KEY:  ",possibleAnswer)
+            print("Decrypted:  ", f"{possible[:35]}...", "---->", "  KEY:  ",possibleAnswer)
             possibleTexts.append(possible)
-   
+   if(possibleTexts == []):
+      print("NO KEYS FOUND ----> try increasing the Letters Range")
          
        
           
         
-FindKey("owvnx hmyl zy gbui nwhrjpa n gltlr bp lvqrvu snrglbuy ypzr ij dwze rodvcv t ebuco ovvv ew lolyorr jecqeeea vf ksml wzdp go uz erlc tv ghvtz hnupztrrocntv nwhrjpa. uamtvt bvpv gejemq ffc unnp jmnrj zn zy ctnr (wzep crvebl gfzl eejftgs), ypzr aip abmv ccyej zn ghlxj ghre q sevw prlgpl ze: xpvrrrw iyl-etoutvca nrv ywg wfcbu ik. dtreg owrs nzvqeid. wctzxiy scpmc tzxm soi xm vs rcwhnu 7.5 swhrj, hqgh ry iosfwcge dtvvmlx ws aizcad 4yca. vt yla uagamaeu ew ze jpdrrrw bvmvd buak t ens jecpk fy abmv azbbcpu soi lv uolc qa typ vvgye, jht nla nbcp bb sfwdr ik tv 5 ziefbrs zy bue dzzaier. q sevw tvkv epr bilqa cfxuvtj l tbt fq auabj auoie-brrd xmzoitmf tf dbnbcp tbnx-emem dpubrzpa quitvt typ vvgye. q grp ew ftrcb ftlogvnx qwe aej jvg kpags npty ie lliaenm (fempznl ulgf), empv vf wzz fhfcb ceitwqs fq bvmv, ew zaotuvzv epr nlxjrr fq vvgyea ghre ul bilqa gvea soi epr mremeirw. igtvyl gukzzvacd we rvgqrw jpafifya.rvvy qs typg nrv miq. typ nnck epnt ksml gve gbu kz buiev ioole bue dlbrrzlt vs nsig cffvgs. zq qgs kzw ooitvt, yff knn rwenyj hwek fy abmvepvnx ptfe. ipurmspz ghre gbu tlv nljz bey kz igtvyl n dzqnrrvyb gukzzvac hqgh r oqsfvcmat kl. brskd: xeeglzntzzv poedqqeitvt typ jvg gtkguip iad fconnzdigify qf typ sry.tcmntv dkueuftr ow dbhdp, pdrn zq gbu uzvg sktkx tf tb. soi xm ghzd cfurwtl iegwyvvd ortktvt ae tlra fq mieijbuier q aevo bb keze nnu pfclznqglp hzvtzyo vt uzea ie ememj zn oucwmg pftvgs. tzvfiupz nlc awvnkd knrvqcylp lvq tytvx aszcg hfh tbnx tb jicw bnkv jwh tf rmg typu qony. qs yff lbnk ow ghzd, bueip qf a kpvqeeng go jamad kzw zuts bvmv zv oextvaier ws mremeirw iad ksma sbtu ghizcth ksm (zoje qzpfcbnnk) wigei xigeitiy dlp bb lrns bf ktur. achils kcg go czwx ak azrvzzcf tvdbf bvqwee jeietzyo go jecqy.vdxrczltyy zq bue glag tvdbf wvcm jrzebrn sj bue jlur piznrsjzz. ghzd evlc rqie pzc ftizvt hzybf aszcg hfh gbu jswhlu dbhdp. pdrrp azbfvdabr yla n dzqnrrvyb rvrwcntzzv ftpwm. qoee iptlltyy rebrmge bb cfxxyekp bue hfmftzzvf ie epr bvrqanzyo, ouk eixe tlzrflw vbtv zn ghv egce fq yhejeqbnj. cmndzyo nnu fvqeidbnnutvt ij ywg typ anmv la eegwqpaktvt typ kbnkpvg.empv v owema mrvm ghzd uvsklsr sktty: yff zrau l nbrdftn/dvcqiaktwa/pizws ie epr bfzs nnu tb zabpa ceiqmpt jpvfe. eze plfdm ghv mwbk ryl grp ew jrzem vt uzea. yff evlc qqad ksig tyta crfnmfs zd kbmgwmgecj lvfwpzrnk lvq ik hqyl rxime pzc ghre unnp eqzej jwh wfyb nckfiylp mm nbcp bb df epvs! jzurhfh bue khw ghzyof ujp lvfwpzrnk aietj zn ghv xmzoij. unkv tb n pftvg tf xixe jfzr tylb lol nia atecnlcj eeikp lbwe epr mfdb vmgzzgaee jvtj, lvq tylb lol nia rv-omeimp bued lb jicw. nryexia frxwhscj saen epvs mpzl wvwt. nlnlgf tij bb cfwtnbfcige ntbu oksmes, sfb aerc bue vyl.ftlog nlfym siidb oetlcfe zy bue vlzyy jeitej zn ftlogvnx zbueid knn fytl svcdr aj l lvskciptzzv. ouk ymnr ksm rnu rmg tfrmghvc evty zbueid: buep hqyl fqbrn gzqat ffb vmgzzgaee xvtwltys, scqag la obou tafuvd, iad jzurtzxmf gzgm lol lv bpgzzguetbl tf emncy. hpvcy mzvnxd ur tf: owat fytl hryo buk zvyy ntbu skcwagvc aguupvgs. npixei dbhdvybf wzwt uamp gbu vixyazy buiera go ksmz aeo gbu ntty fzyl ghre bratsqag ksm zakpzvac smypj l tbt ntbu ueomesklvqier. ob tf epr pizn oewzzr fzyiy eolu nt cpift fykr ffc wsfznm uolca.")
+FindKey("ivfyrtqdanz mj lhx tigcxwj gf wijaggmey  wkmkanz  xvktbrx  snw qranmezfigk tgmiykwr lswlwtvv  at brmgloij msbrx hrhkismfmey ltrxmazij lo vvvstx mektkytlihrj lhtx kwle e tgmiykwr plrl th hf  hrhkismfmey htw swchqv sn xwjwnmmrd sdmcd ig xfvar w kwcarfdozc ujioie ookpu  snw mk k uliu an xzvjymlzfg yvfe wxf uwvxpfhmxrk lo omuwo zedw dxwzyn  hrv gf mlv eolx ggpnprj pksxjafqzfg eeeyutkvk il tplhhr  zl s t lzyh eimwl eeeyutkv lhtx j walc kg lxeif agh iwaw  qrcigk zl a zvvst vlfacx jfj bxkzfnxvj  hymlff il yjwd ysi s wbhv jagkv gf ttgdivekaogw  zfceyuanz wtaegxzxiv gfepnxzfg  weks agecqsbw  rfd pis veoicgpfiel  im w rdsh yjwd br dscamew lxeifigk rfd tvkafbgzsl brkwlemxwnvi rhpemtstbsek  agskzek tfhueei dagklsgx mj baoe  zl s t kvfekec huktfke eeeyutkv lhtx j msxh wgr wimwlhtzfg ttgdivekaogw  jgfmarje  tru eoumcw aitj  baoe zk ag ssbevx fjixrkwd eeeyutkv  ohbgy eetrj at ystmsxw ff ounvutl eev taizj igxvjavxzgnl  mk k wbhvdy nwvv ig ielektiasx eghlbgrlihrj snw prjgx wtslx wpktxqj  as trflhxv ggpnprj ltrxmazi lkew jfj dxzvdoimey shjkoaki  xsmxw  rfd htvjammey srwkwml  mk k a isnwryyc dagklsgx xyst tpcgwl jfj lha cwvxp dwmhvp eagmgmltxzgn tru hrhzzvel hvneesgwrl azlh fsiw chrkjoe smwr mlvar vsuw  il yjwd br dsnr lzyh iiixokqrfcx eghlbgrlihrj snw mj s phtldak gygivi wgr zedw dxzvdoiqvft  cemssvvzht bw r hrhkismfmey ltrxmazi lkew xf urxekw igxvjavxzne piskimij snw avt aitcactxzgnl  mk k oyxvf uliu slhrxkiwi ylme eev clw kg ckirle wcesmbg rfd kijhogwzne pis hazij  baoejurbtk as tpjg uliu an pis veoicgpfiel fkedwwhvbk lbov jetgk snw eeyueei  hrhkismfmey ctr sw uliu an feeq dbjwwrxrk oarw  wgr xbrepei")
+
+
+
