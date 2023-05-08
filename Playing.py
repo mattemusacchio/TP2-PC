@@ -71,7 +71,11 @@ def Descifrar(path, clave):
   indexEncrypted = 0
   newClave = clave.casefold()
   newMensaje = path.casefold()
+<<<<<<< Updated upstream
   for letter in newMensaje[:200]:
+=======
+  for letter in newMensaje[:55]:
+>>>>>>> Stashed changes
      if(letter.isalpha()):
        encryptedValue.append(valuesPerLetter[(ord(letter) - ord("a")) - (ord(newClave[indexEncrypted]) - ord("a"))])
        if(len(newClave) - 1 == indexEncrypted):
@@ -82,7 +86,11 @@ def Descifrar(path, clave):
       encryptedValue.append(" ")
 
   result = "".join(encryptedValue)
+<<<<<<< Updated upstream
   return(result)    
+=======
+  return(result[:55])    
+>>>>>>> Stashed changes
 
 def getMedium(List):
     countLetter = {}
@@ -147,7 +155,11 @@ def FindKey(text):
        
           
         
+<<<<<<< Updated upstream
 FindKey("ivfyrtqdanz mj lhx tigcxwj gf wijaggmey  wkmkanz  xvktbrx  snw qranmezfigk tgmiykwr lswlwtvv  at brmgloij msbrx hrhkismfmey ltrxmazij lo vvvstx mektkytlihrj lhtx kwle e tgmiykwr plrl th hf  hrhkismfmey htw swchqv sn xwjwnmmrd sdmcd ig xfvar w kwcarfdozc ujioie ookpu  snw mk k uliu an xzvjymlzfg yvfe wxf uwvxpfhmxrk lo omuwo zedw dxwzyn  hrv gf mlv eolx ggpnprj pksxjafqzfg eeeyutkvk il tplhhr  zl s t lzyh eimwl eeeyutkv lhtx j walc kg lxeif agh iwaw  qrcigk zl a zvvst vlfacx jfj bxkzfnxvj  hymlff il yjwd ysi s wbhv jagkv gf ttgdivekaogw  zfceyuanz wtaegxzxiv gfepnxzfg  weks agecqsbw  rfd pis veoicgpfiel  im w rdsh yjwd br dscamew lxeifigk rfd tvkafbgzsl brkwlemxwnvi rhpemtstbsek  agskzek tfhueei dagklsgx mj baoe  zl s t kvfekec huktfke eeeyutkv lhtx j msxh wgr wimwlhtzfg ttgdivekaogw  jgfmarje  tru eoumcw aitj  baoe zk ag ssbevx fjixrkwd eeeyutkv  ohbgy eetrj at ystmsxw ff ounvutl eev taizj igxvjavxzgnl  mk k wbhvdy nwvv ig ielektiasx eghlbgrlihrj snw prjgx wtslx wpktxqj  as trflhxv ggpnprj ltrxmazi lkew jfj dxzvdoimey shjkoaki  xsmxw  rfd htvjammey srwkwml  mk k a isnwryyc dagklsgx xyst tpcgwl jfj lha cwvxp dwmhvp eagmgmltxzgn tru hrhzzvel hvneesgwrl azlh fsiw chrkjoe smwr mlvar vsuw  il yjwd br dsnr lzyh iiixokqrfcx eghlbgrlihrj snw mj s phtldak gygivi wgr zedw dxzvdoiqvft  cemssvvzht bw r hrhkismfmey ltrxmazi lkew xf urxekw igxvjavxzne piskimij snw avt aitcactxzgnl  mk k oyxvf uliu slhrxkiwi ylme eev clw kg ckirle wcesmbg rfd kijhogwzne pis hazij  baoejurbtk as tpjg uliu an pis veoicgpfiel fkedwwhvbk lbov jetgk snw eeyueei  hrhkismfmey ctr sw uliu an feeq dbjwwrxrk oarw  wgr xbrepei")
 
 
 
+=======
+FindKey("jzw os lvczr rowc dmeysp zw t 2010 aoprdgsr efqiuvpr-vraqckiw aeeijr xepkely htlh pgsuvpr bcdey sf xjv 2003 fhom zf olw wcdi gaop bt gjiujmwa ezwzpd, ttfhncgo bt hjicdahrmd aimeevzsg apo ddwlvksymef my kejeofygt rtcoyjiu. zx pau oimiuxgu fr cjcin wsrfvvl apo dzef hgsphiu qrjq s weiixnrwat fq akcp waxten, wsrfvvl, apo dzfdskj, egd ueamw llg msbcgd oa nsc drvncjpl, bijetu fntnpr, xvsmi wikgwdoi, eeitzgt fgcrzvs, nqeea hkwl, xljmuksihgc mdrld-rcelsg, e.j. hmdpgi, egd mcinxwr yzmz. tjp sosjc vroxs rwaxi ar dvvd, a ojtcmuen mmdipr vdpdeiv; lbcefp, vr mrfvvlibpd oiwr yzwaipr tj fwgqdi t dtlgjr kpcpik lkve olw svyik vkviikk, mpaykeu l rvvw rkxlm fwcy yvskqe fnt kd uietpg ks urkyg cmewgcj mo mtlg ml. lg zrltgld cidtu rrw bgqrdifhu klx dtlgjr, srf hybcmwy ymkgqmiks vsao xzmpxw trg yoo ipeekpr au ehzc kigd mg tjp cjrxpktx uevhezr nmmzrzs cyd yvskqew.")
+>>>>>>> Stashed changes
