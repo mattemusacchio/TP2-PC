@@ -117,7 +117,7 @@ def graficos(fig,data,k):
         for item in i:
             count += 1
             diccionario[item] = freq[count]
-
+        print(diccionario)
         values = list(diccionario.values())
         maximo = values.index(max(diccionario.values()))
         letra = chr(97+maximo-4)
