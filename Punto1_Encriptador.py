@@ -1,5 +1,8 @@
-def cifrado(msg, clave):
-  valuesPerLetter = list(map(chr, range(97, 123))) * 2
+def cifrado(msg:str, clave:str):
+  """
+  cifrado toma un mensaje y una clave, y convierte el mensaje en un mensaje encriptado, utilizando la clave dada.
+  """
+  valuesPerLetter = list(map(chr, range(97, 123))) * 2 
   encryptedValue = []
   indexEncrypted = 0
   newClave = clave.casefold()
@@ -26,10 +29,8 @@ try:
 except:
   exit("Archivo inexistente")
 mensaje = f.read()
-print(mensaje)
 f.close()
 mensaje_cifrado = cifrado(mensaje,key)
-print(mensaje_cifrado)
 file = open(encryptedfile,"w", encoding='utf-8')
 file.write(mensaje_cifrado)
 file.close()

@@ -121,17 +121,10 @@ def graficos(fig,data,k):
             else:
                 continue
         values = list(diccionario.values())
-        while True:
-            maximo = values.index(max(values))
-            minimo = values.index(min(values))
-            if valuesPerLetter[maximo + 21] == valuesPerLetter[minimo] or valuesPerLetter[maximo + 12] == valuesPerLetter[minimo] or valuesPerLetter[maximo + 19] == valuesPerLetter[minimo] or valuesPerLetter[maximo + 5] == valuesPerLetter[minimo] or valuesPerLetter[maximo + 6] == valuesPerLetter[minimo]:
-                letra = valuesPerLetter[maximo-4]
-                clave.append(letra)
-                print(f"--> {letra}")
-                break
-            else:
-                values[maximo] = 0
-                continue
+        maximo = values.index(max(diccionario.values()))
+        letra = valuesPerLetter[maximo-4]
+        clave.append(letra)
+        print(f"--> {letra}")
         x = np.array(list(diccionario.keys()))
         y = np.array(list(diccionario.values()))
         plt.subplot(filas,columnas,m+1)
@@ -140,6 +133,43 @@ def graficos(fig,data,k):
         plt.ylabel("Frecuencia")
         fig.tight_layout(pad=1.0)
     plt.show()
+    clave = "".join(clave)
+    print(clave)
+    optimizar = int(input("""Desea optimizar la clave?
+    1. Si 
+    0. No 
+    """))
+    if optimizar == 1:
+            clave = []
+            m = 0
+            contador = 0
+            for i in DivideText(archivo,k):
+                valuesPerLetter = list(map(chr, range(97, 123))) * 2
+                m += 1
+                count = -1
+                diccionario = {
+                "a": 0, "b": 0, "c": 0, "d": 0, "e": 0, "f": 0, "g": 0, "h": 0, "i": 0, "j": 0, "k": 0, "l": 0, "m": 0, "n": 0,  "o": 0, "p": 0, "q": 0, "r": 0, "s": 0, "t": 0, "u": 0, "v": 0, "w": 0, "x": 0, "y": 0, "z": 0
+                }
+                contador += 1
+                freq = frecuencia(i)
+                for item in i:
+                    if item in valuesPerLetter:
+                        count += 1
+                        diccionario[item] = freq[count]
+                    else:
+                        continue
+                values = list(diccionario.values())
+                while True:
+                    maximo = values.index(max(values))
+                    minimo = values.index(min(values))
+                    if valuesPerLetter[maximo + 21] == valuesPerLetter[minimo] or valuesPerLetter[maximo + 12] == valuesPerLetter[minimo] or valuesPerLetter[maximo + 19] == valuesPerLetter[minimo] or valuesPerLetter[maximo + 5] == valuesPerLetter[minimo] or valuesPerLetter[maximo + 6] == valuesPerLetter[minimo]:
+                        letra = valuesPerLetter[maximo-4]
+                        clave.append(letra)
+                        print(f"--> {letra}")
+                        break
+                    else:
+                        values[maximo] = 0
+                        continue
     clave = "".join(clave)
     return f"Clave ---> {clave}"
 
@@ -173,11 +203,12 @@ ENGLISH_LETTERS_FRECUENCIES = {
 }
 
 #graficos(plt.figure(figsize = (12,6)),ENGLISH_LETTERS_FRECUENCIES,5)
+
 def longitud_de_clave(diccionario):
     longitud = 1
     for i in diccionario.values():
         if i > 0.062:
             return longitud
         longitud += 1
-print("########################")
+print("---------------")
 print(graficos(plt.figure(figsize = (12,6)),ENGLISH_LETTERS_FRECUENCIES,longitud_de_clave(valores())))
