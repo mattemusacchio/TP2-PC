@@ -43,14 +43,52 @@ filename = input("Ingrese nombre del archivo en texto plano: ")
 key = input("Ingrese la clave: ")
 encryptedfile = input("Ingrese nombre del archivo para la encripción: ")
 
-# usamos try except en caso de que el archivo no se pueda abrir por alguna razón.
-try:
-  f = open(filename,"r", encoding='utf-8')
-except:
-  exit("Archivo inexistente")
+# usamos este while para verificar que el archivo exista
+f = 0
+while f == 0:
+  try:
+    f = open(filename,"r", encoding='utf-8')
+  except:
+    print("Archivo Inexistente, por favor ingrese de nuevo.")
+    filename = input("Ingrese nombre del archivo en texto plano: ")
 
-# usamos la variable mensaje para almacenar el texto del archivo como un string y usamos la funcion cifrado para encriptarlo
+# usamos la variable mensaje para almacenar el texto del archivo como un string
 mensaje = f.read()
+
+# usamos este ciclo para verificar que el archivo de texto no se ecuentre vacio
+vacio = True
+while vacio == True:
+  for i in mensaje:
+    # vamos probando letra por letra hasta encontrar alguna letra alfanumerica
+    if i.isalpha() == True:
+      vacio = False
+      break
+  
+  # si en este punto el ciclo no se freno, significa que el archivo esta vacio, entonces le pedimos al usuario que ingrese otra vez
+  if mensaje == "" or vacio == True:
+    print("El archivo de texto plano se encuentra vacio o no contiene caracteres legibles. Por favor ingrese el nombre del archivo de nuevo")
+    filename = input("Ingrese nombre del archivo en texto plano: ")
+    f = open(filename,"r", encoding='utf-8')
+    mensaje = f.read()
+  else:
+    vacio = False
+
+# usamos este while para verificar que la clave no contenga numeros o caracteres especiales, ademas de transformarla en minuscula.
+caracterfalso = False
+while caracterfalso == False:
+  caracterfalso = True
+  key = key.casefold()
+  valuesPerLetter = list(map(chr, range(97, 123)))
+  for i in key:
+    if i in valuesPerLetter:
+      continue
+    else:
+      print("La clave no puede contener caracteres especiales o numeros. Por favor ingrese de nuevo la clave. ")
+      key = input("Ingrese la clave: ")
+      caracterfalso = False
+      break
+
+# usamos la funcion cifrado para encriptarlo
 f.close()
 mensaje_cifrado = cifrado(mensaje,key)
 
