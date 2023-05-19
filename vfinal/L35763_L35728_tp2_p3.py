@@ -284,8 +284,6 @@ print(promedio)
 # Gráfico de barras del IoC en función del posible largo de la clave, para longitudes de entre 1 y 30.
 grafico(valores(),"IoC en función del posible largo de la clave","Largo de la clave","Indice de coincidencia")
 
-# Genere una figura que contenga 6 gráficos
-
 ENGLISH_LETTERS_FRECUENCIES = {
     "a": 0.08167, "b": 0.01492, "c": 0.02782, "d": 0.04253, "e": 0.12702, "f": 0.02228,
     "g": 0.02015, "h": 0.06094, "i": 0.06966, "j": 0.00153, "k": 0.00772, "l": 0.04025,
@@ -294,9 +292,10 @@ ENGLISH_LETTERS_FRECUENCIES = {
     "y": 0.01974, "z": 0.00075
 }
 
-#graficos(plt.figure(figsize = (12,6)),ENGLISH_LETTERS_FRECUENCIES,5)
+# graficos de ejemplo suponiendo que el largo de la clave es 5
+graficos(12,6,ENGLISH_LETTERS_FRECUENCIES,5)
 
 print("---------------")
 
-# corremos la funcion graficos
+# graficos con el verdadero largo de la clave
 print(graficos(12,6,ENGLISH_LETTERS_FRECUENCIES,longitud_de_clave(valores())))

@@ -10,29 +10,19 @@ def DivideText(f:str, length:int) -> list:
     f = file name, nombre del archivo encriptado. (str) 
     length = k, longitud de la clave a analizar (int)
     """
-    valuesPerLetter = list(map(chr, range(97, 123))) * 2 # Usando chr() se obtiene el abecedario y se multiplica por 2 para no tener problemas a la hora de sumar diferentes letras.
+    valuesPerLetter = list(map(chr, range(97, 123))) * 2
     text = open(f,"r",encoding='utf-8')
-    text = text.read() # Se lee el archivo 
+    text = text.read()
     textDivided = []
     count = 0
     newText = text.casefold()
-    # Se inicia un loop del largo de la clave
     for i in range(0, length):
         textDivided.append([])
-         # Generar un la cantidad necesaria de [] vacios. Se genera un loop del
-         # largo de la clave y se separa el texto en cada []
-
-    # Se inicia un loop del texto y se va
     for letter in newText:
        if letter in valuesPerLetter:
-        # Pushear cada letra del texto en un index de la lista, basado en que
-        # index de la letra esta el contador.
         textDivided[count].append(letter)
         if(length -1 == count):
             count = 0
-            # Chequear si el largo de la clave - 1 es igual al contador, en caso
-            # que sea asi, resetear el contador.
-
         else:
             count += 1
     return textDivided
@@ -43,39 +33,28 @@ def getIoC(grupo:list) -> float:
     Toma como argumentos:
     grupo = grupo de letras (list) 
     """
-    countLetter = {} # Declarar un diccionario vacio
+    countLetter = {}
     top = 0
     amount = 0
-    
-    # Rellenar el diccionario por cada letra en el grupo pasado como pametro.
+   
     for letra in grupo:
-         # Si la letra ya se encuentra en el diccionario agregar 1, en caso
-         # contrario, declararlo con valor inicial 1.
          if letra in countLetter:
           countLetter[letra] += 1
          else: 
              countLetter[letra] = 1
-
-    # Hacer un loop en cada letra encontrada y finalmente calcular el IoC 
     for letrasEncontradas in countLetter:
-          amount += countLetter[letrasEncontradas] # La cantidad de veces que aparece una letra
-          top += countLetter[letrasEncontradas] * (countLetter[letrasEncontradas] - 1) # Se le suma a la variable top += n * (n - 1)
+          amount += countLetter[letrasEncontradas]
+          top += countLetter[letrasEncontradas] * (countLetter[letrasEncontradas] - 1)
     try:
-        return(top / (amount * (amount - 1))) # Finalmente se calcula la suma de todos las letras calculadas como n(n - 1) dividido por la formula del denominador.
+        return(top / (amount * (amount - 1)))
     except:
         return 0
 def valores():
     """ Calcula el promedio usando el IoC en función del posible largo de la clave, para longitudes de entre 1 y 30.
     """
-    diccionario = {} # Se declara un diccionario vacio.
-
-    # Se genera un loop 30 veces y se calcula el IoC en diferentes largos de
-    # clave (Rango de longitud entre 1 - 30)
+    diccionario = {}
     for k in range(1,31):
         resultados = []
-        # Posteriormente se vuelve a
-        # generar un loop dentro del anterior pero esta vez es sobre cada lista
-        # del texto dividido.
         for i in DivideText(archivo,k):
             resultados.append(getIoC(i))
         promedio = sum(resultados)/len(resultados)
@@ -90,15 +69,15 @@ def frecuencia(grupo:list) -> list:
     Toma como argumentos:
     grupo = grupo de letras (list) 
     """
-    grupo = "".join(grupo) # Juntamos todas las letras en un texto
-    indices = []  # Declaramos el indice para luego pushear 
-    frequency = "" 
-    # Se genera un loop en cada letra, se calcula el indice de frecuencia de la misma y posteriormente se pushea a indices.
+    grupo = "".join(grupo)
+    indices = []
+    frequency = ""
     for letra in grupo:
-        rep = grupo.count(letra)
-        frequency = (rep/len(grupo)) 
         indices.append(frequency)
-
+        rep = grupo.count(letra)
+        frequency = (rep/len(grupo))
+    indices.append(frequency)
+    indices.remove("")
     return indices
 
 def longitud_de_clave(diccionario):
@@ -111,9 +90,9 @@ def longitud_de_clave(diccionario):
     for i in diccionario.values():
         # tomamos cualquier punto mas grande que 0.062 como el primer pico de la funcion, es decir la longitud de la clave.
         if i > 0.062:
-            return longitud # Si encuentra el valor, devuelve la longitud de la clave
+            return longitud
         longitud += 1
-        
+
 def grafico(data,title,xlabel,ylabel):
     """ Genera un gráfico de barras del IoC en función del posible largo de la clave, para longitudes de entre 1 y 30 con una linea horizontal en 6.86% y otra en 3.85%
 
@@ -146,17 +125,15 @@ def grafico(data,title,xlabel,ylabel):
     # muestra el resultado (grafico de barras)
     plt.show()
 
-def graficos(size_x,size_y,data,k):
-    """ Genera graficos de barras y calcula la clave del texto encriptado.
+def graficos(fig,data,k):
+    """ Genera graficos de barras
 
     Toma como argumentos:
-    size_x = tamaño en eje x de la ventana de los graficos
-    size_y = tamaño en eje y de la ventana de los graficos
+    fig = comando para programar el grafico.
     data = diccionario con la informacion a graficar (dict).
     k = longitud de la clave. (int)
     """
 
-    fig = plt.figure(figsize = (size_x,size_y))
     # Formulamos el tamaño de la grilla en funcion del largo de la clave. Para que la grilla tenga el tamaño mas adecuado posible
     grilla = 0
     filas = 1
@@ -188,8 +165,6 @@ def graficos(size_x,size_y,data,k):
         valuesPerLetter = list(map(chr, range(97, 123))) * 2
         m += 1
         count = -1
-
-        # usamos este diccionario vacio para agregar las frecuencias de cada letra del grupo.
         diccionario = {
         "a": 0, "b": 0, "c": 0, "d": 0, "e": 0, "f": 0, "g": 0, "h": 0, "i": 0, "j": 0, "k": 0, "l": 0, "m": 0, "n": 0,  "o": 0, "p": 0, "q": 0, "r": 0, "s": 0, "t": 0, "u": 0, "v": 0, "w": 0, "x": 0, "y": 0, "z": 0
         }
@@ -198,45 +173,85 @@ def graficos(size_x,size_y,data,k):
         # usando la funcion frecuencia, calculamos la frecuencia de cada letra del grupo i
         freq = frecuencia(i)
 
-        # con la informacion de freq, asignamos la frecuencia por letra al diccionario. Este diccionario es el que usaremos para tomar la informacion a usar el grafico
+        # con la informacion de freq, asignamos la frecuencia por letra a un diccionario
         for item in i:
             if item in valuesPerLetter:
                 count += 1
                 diccionario[item] = freq[count]
             else:
                 continue
+        # este diccionario es el que usaremos para tomar la informacion a usar el grafico
 
-        # tomamos los valores de este diccionario
+        # buscamos el valor maximo en el diccionario, es decir el valor con mas frecuencia, el cual PROBABLEMENTE sea la "e", ya que sabemos que es la letra en ingles con mas frecuencia en general.
         values = list(diccionario.values())
+        maximo = values.index(max(diccionario.values()))
 
-        # usamos el siguiente algoritmo para encontrar cada letra de la clave.
-        while True:
-                    maximo = values.index(max(values)) # Buscamos el valor maximo siguiendo los patrones de frecuencia de letras en ingles, entendemos que el mas propenso a ser el maximo es la "e", pero para confirmar eso usamos el siguiente if.
+        # Sabiendo que el maximo PROBABLEMENTE sea "e" desplazado x lugares por la encriptacion, podemos restarle 4 al valor de "e" (porque la "a" esta a 4 lugares de la "e"), lo cual nos dejaría con el valor de la letra en ese lugar de la clave. Todo esto asumiendo que el caracter que mas se repite es la "e"
+        letra = valuesPerLetter[maximo-4]
+        clave.append(letra)
 
+        # y utilizando el diccionario que conseguimos mostrando la frecuencia de cada letra, aplicamos esta informacion al grafico.
+        x = np.array(list(diccionario.keys()))
+        y = np.array(list(diccionario.values()))
+        plt.subplot(filas,columnas,m+1)
+        barlist = plt.bar(x, y, color ='steelblue', width = 0.8)  
+        barlist[maximo-4].set_color("mediumseagreen")
+        plt.title(f"Letra {m} de la clave")
+        plt.ylabel("Frecuencia")
+        fig.tight_layout(pad=1.0)
+    
+        # una vez que encontramos la letra en esa posicion de la clave, la printeamos.
+        print(f"--> {letra}")
+    # mostramos la posible clave de la encriptación al usuario.
+    clave = "".join(clave)
+    print(clave)
+
+    # la cual si el usuario considera que no es correcta, se puede utilizar un algoritmo que busca mas coincidencias que el anterior para intentar optimizarlo a una clave mas cercana a la correcta.
+    optimizar = int(input("""Desea optimizar la clave?
+    1. Si 
+    0. No 
+    """))
+
+    # si se desea optimizar
+    if optimizar == 1:
+            clave = []
+            m = 0
+            contador = 0
+            # se usa el mismo loop que antes
+            for i in DivideText(archivo,k):
+                valuesPerLetter = list(map(chr, range(97, 123))) * 2
+                m += 1
+                count = -1
+                diccionario = {
+                "a": 0, "b": 0, "c": 0, "d": 0, "e": 0, "f": 0, "g": 0, "h": 0, "i": 0, "j": 0, "k": 0, "l": 0, "m": 0, "n": 0,  "o": 0, "p": 0, "q": 0, "r": 0, "s": 0, "t": 0, "u": 0, "v": 0, "w": 0, "x": 0, "y": 0, "z": 0
+                }
+                contador += 1
+                freq = frecuencia(i)
+                for item in i:
+                    if item in valuesPerLetter:
+                        count += 1
+                        diccionario[item] = freq[count]
+                    else:
+                        continue
+                values = list(diccionario.values())
+
+                # aca es donde cambia el algoritmo
+                while True:
+                    maximo = values.index(max(values))
                     if values[maximo-4] > values[maximo-3] and values[maximo-4] > values[maximo-2] and values[maximo-4] > values[maximo-1] and values[maximo-4] < values[maximo] and values[maximo-5] < values[maximo-6]:
-                    # asumiendo que el maximo es la "e", el maximo - 4 sería la "a" pero movida hasta la letra que buscamos. Para confirmar que el maximo es la "e", nos fijamos en los patrones de los graficos, y nos damos cuenta que la "a" siempre es mas grande que los 3 que estan a su derecha ([maximo - 4] > [maximo - 3 , -2 y -1]) pero tambien sabemos que el valor de "a" sea menor que el de "e" ([maximo - 4] < [maximo]) y tambien si el maximo - 4 es la "a", el maximo - 5 deberia ser la "z", por lo que nos fijamos que la "z" < "y" ([maximo-5] < [maximo-6]). Con estos algoritmos, nos dariamos cuenta que el pico que nos dio, es verdaderamente nuestra "e" y no otro punto que de casualidad es mas alto. Por lo que maximo - 4, nos daria la supuesta "a" que en realidad es esa letra escondida que buscamos para nuestra clave.
-
-                        # buscamos esa "a" que ahora va a ser otra letra, y la sumamos a la clave.
                         letra = valuesPerLetter[maximo-4]
                         clave.append(letra)
-                        print(f"--> {letra}") # vamos mostrando cada letra de la clave.
-
-                        # y utilizando el diccionario que conseguimos mostrando la frecuencia de cada letra, aplicamos esta informacion al grafico. El cual nos ayuda a entender mejor todavía el proceso de encontrar la letra de la clave.
+                        print(f"--> {letra}")
+                        # y utilizando el diccionario que conseguimos mostrando la frecuencia de cada letra, aplicamos esta informacion al grafico.
                         x = np.array(list(diccionario.keys()))
                         y = np.array(list(diccionario.values()))
                         plt.subplot(filas,columnas,m+1)
-                        barlist = plt.bar(x, y, color ='steelblue', width = 0.8)
-
-                        # marcamos la "a" de otro color
+                        barlist = plt.bar(x, y, color ='steelblue', width = 0.8)  
                         barlist[maximo-4].set_color("mediumseagreen")
-
-                        # titulos y  espaciado
                         plt.title(f"Letra {m} de la clave")
                         plt.ylabel("Frecuencia")
-                        fig.tight_layout(pad=0.75)
+                        fig.tight_layout(pad=1.0)
                         break
-
-                    # en caso de que el algoritmo anterior no funcione, es decir que haya una medida imprevista en la cual no se cumpla el patron. Y en caso de que tampoco encuentre ninguna letra que cumpla ese patron, para que no se quede buscando para siempre una letra que no va a encontrar, le asignamos que simplemente tome el valor maximo, como la "e" y prosiga. En caso de entrar a este if, la letra posiblemente sea erronea, pero es solo para prevenir que se quede buscando para siempre en el if de arriba. 
                     elif values[maximo] == 0:
                         values = list(diccionario.values())
                         maximo = values.index(max(values))
@@ -250,23 +265,20 @@ def graficos(size_x,size_y,data,k):
                         barlist[maximo-4].set_color("mediumseagreen")
                         plt.title(f"Letra {m} de la clave")
                         plt.ylabel("Frecuencia")
-                        fig.tight_layout(pad=0.75)
+                        fig.tight_layout(pad=1.0)
                         break
-
-                    # si encuentra un valor maximo que no cumple las condiciones del primer if, le asignamos que ese valor pase a ser 0 para que vuelva y pruebe con el proximo maximo. 
                     else:
-                        # asignar este valor a 0 no cambia nada el valor del grafico, porque esta cambiando la informacion de la lista con los valores, no del diccionario en si.
                         values[maximo] = 0
                         continue
-
-    # mostramos la posible clave de la encriptación al usuario y mostramos el grafico.
+    # mostrar la clave
     clave = "".join(clave)
+    print(f"Clave ---> {clave}")
     plt.show()
-    return f"Clave ---> {clave}"
+    return clave
 
 ###########################################################
-"""
-# 1. Dividir el texto en grupos
+
+"""# 1. Dividir el texto en grupos
 valor_de_k = int(input("Ingrese valor de k: "))
 DivideText(archivo,valor_de_k)
 
@@ -274,13 +286,12 @@ DivideText(archivo,valor_de_k)
 resultados = []
 for i in DivideText(archivo,valor_de_k):
    resultados.append(getIoC(i))
-print(resultados)
+#print(resultados)
 
 # 3. Promediar estos resultados.
 promedio = sum(resultados)/len(resultados)
-print(promedio)
+#print(promedio)
 """
-
 # Gráfico de barras del IoC en función del posible largo de la clave, para longitudes de entre 1 y 30.
 grafico(valores(),"IoC en función del posible largo de la clave","Largo de la clave","Indice de coincidencia")
 
@@ -298,5 +309,4 @@ ENGLISH_LETTERS_FRECUENCIES = {
 
 print("---------------")
 
-# corremos la funcion graficos
-print(graficos(12,6,ENGLISH_LETTERS_FRECUENCIES,longitud_de_clave(valores())))
+print(graficos(plt.figure(figsize = (12,6)),ENGLISH_LETTERS_FRECUENCIES,longitud_de_clave(valores())))
