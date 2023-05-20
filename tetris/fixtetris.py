@@ -1,5 +1,6 @@
 import pygame
 import random
+import csv
 
 # Inicialización de pygame
 pygame.init()
@@ -63,7 +64,7 @@ class Pieza:
         for i in range(len(self.forma)):
             for j in range(len(self.forma[i])):
                 if self.forma[i][j] == "X":
-                    if self.y + i*tamano_bloque >= alto_pantalla or self.x + j*tamano_bloque < 0 or self.x + j*tamano_bloque>= ancho_pantalla or tablero[(self.y + i)//tamano_bloque][(self.x + j)//tamano_bloque] != ".":
+                    if self.y + i*tamano_bloque >= alto_pantalla or self.x + j*tamano_bloque < 0 or self.x + j*tamano_bloque > 780 or tablero[(pieza_actual.y//tamano_bloque)+i][(pieza_actual.x//tamano_bloque)+j] != ".":
                         return True
         return False
 
@@ -77,7 +78,7 @@ class PiezaVieja:
     def dibujar(self):
         for i in range(len(self.forma)):
             for j in range(len(self.forma[i])):
-                if self.forma[i][j] == "X":
+                if self.forma[i][j] == "X" and tablero[(self.y//tamano_bloque)+i][(self.x//tamano_bloque)+j] == "X":
                     pygame.draw.rect(pantalla, self.color, (self.x + j * tamano_bloque, self.y + i * tamano_bloque, tamano_bloque, tamano_bloque))
                     pygame.draw.rect(pantalla, NEGRO, (self.x + j * tamano_bloque, self.y + i * tamano_bloque, tamano_bloque, tamano_bloque), 1)
     
@@ -108,7 +109,7 @@ tablero = [["." for _ in range(ancho_pantalla // tamano_bloque)] for _ in range(
 pieza_actual = nueva_pieza()
 tiempo_pieza = 0
 tiempo_total = 0
-puntaje = 0
+puntaje = 1100
 tiempo = 1000
 game_over = False
 anterior_piezas = []
@@ -139,24 +140,28 @@ while not game_over:
     # Actualización del juego
     tiempo_pieza += reloj.tick(60)
     tiempo_total += tiempo_pieza
-    if tiempo_pieza > 1000:
+    if tiempo_pieza > tiempo:
         pieza_actual.mover_abajo()
         if pieza_actual.colision(tablero):
             pieza_actual.mover_arriba()
-            if pieza_actual.y >= alto_pantalla:
+            if pieza_actual.y <= 0:
                 game_over = True
             for i in range(len(pieza_actual.forma)):
                 for j in range(len(pieza_actual.forma[i])):
                     if pieza_actual.forma[i][j] == "X":
                         if 0 <= ((pieza_actual.y + i)//tamano_bloque) < len(tablero) and 0 <= ((pieza_actual.x + j)//tamano_bloque) < len(tablero[0]):
-                            tablero[(pieza_actual.y + i)//tamano_bloque][(pieza_actual.x + j)//tamano_bloque] = "X"
+                            tablero[(pieza_actual.y)//tamano_bloque+i][(pieza_actual.x//tamano_bloque)+j] = "X"
             filas_completas = 0
             for i in range(len(tablero)):
                 if "." not in tablero[i]:
                     filas_completas += 1
                     del tablero[i]
                     tablero.insert(0, ["." for _ in range(ancho_pantalla // tamano_bloque)])
-            puntaje += filas_completas * 100
+                    puntaje += filas_completas*100
+                    print(f" Score: {puntaje}")
+                    tiempo -= 50
+                    if tiempo < 300:
+                        tiempo = 200
             anterior_piezas.append(PiezaVieja(pieza_actual.forma,pieza_actual.color,pieza_actual.x,pieza_actual.y))
             pieza_actual = nueva_pieza()
         tiempo_pieza = 0
@@ -164,13 +169,30 @@ while not game_over:
     # Dibujar la pantalla del juego
     pantalla.fill(GRIS)
     pieza_actual.dibujar()
-    print(tablero)
     if anterior_piezas != []:
         for i in anterior_piezas:
             i.dibujar()
     pygame.display.flip()
 
 print("¡Juego terminado!")
-print("Puntaje final:", puntaje)
+print("Puntaje final:", puntaje,"\n")
+file = open('scoreboard.csv', 'a') # Open the file in append mode
+file.write("\n")
+file.write(str(puntaje))
+file.close()
+
+rows = []
+file = open("scoreboard.csv","r+")
+csvreader = csv.reader(file)
+header = next(csvreader)
+for row in csvreader:
+    rows.append(row)
+scoreboard = []
+for i in rows:
+    scoreboard.append(int(i[0]))
+
+if max(scoreboard) <= puntaje:
+    print(f"New record! {puntaje}")
+print(f"Highscore: {max(scoreboard)}")
 
 pygame.quit()
